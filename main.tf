@@ -9,6 +9,9 @@ resource "aws_instance" "web-server" {
     key_name = "ssh_key_created_and_loaded_in_aws_key_pairs"
     # attach to security group
     security_groups = [aws_security_group.security-web-server.name]
+    tags = {
+      "Name" = "WebserverByTF"
+    }
       
 }
 
@@ -27,4 +30,10 @@ resource "aws_security_group" "security-web-server" {
       to_port = 22
     } ]
   
+}
+
+# think of this as return value. This will return the public dns
+# for the created resource which is an EC2 instance
+output "instance_public_dns" {
+    value = aws_instance.web-server.public_dns
 }
